@@ -10,7 +10,7 @@ class PageTwo extends StatelessWidget {
     return Consumer<DataTwo>(
         builder: (context, dataa, child) => MaterialApp(
               routes: {
-                './create': (context) => MyApp(c2: dataa),
+                './create': (context) => MyApp(),
                 './view': (context) => PageTwo(),
                 './apost': (context) => APost(postIndex: dataa.getCurr)
               },

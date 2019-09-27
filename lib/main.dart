@@ -8,10 +8,7 @@ import './Posts.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  final c1;
-  final c2;
-
-  MyApp({Key key, this.c1, this.c2}) : super(key: key);
+   
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -20,7 +17,7 @@ class MyApp extends StatelessWidget {
             builder: (context) => PostData(),
           ),
           ChangeNotifierProvider(
-            builder: (context) => DataTwo(this.c2),
+            builder: (context) => DataTwo(),
           )
         ],
         child: MaterialApp(
