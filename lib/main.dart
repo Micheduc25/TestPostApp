@@ -11,13 +11,13 @@ class MyApp extends StatelessWidget {
   final c1;
   final c2;
 
-  MyApp({Key key, this.c1, this.c2}) : super(key: key);
+  MyApp({Key key, this.c1: null, this.c2: null}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(
-            builder: (context) => PostData(),
+            builder: (context) => PostData(this.c1),
           ),
           ChangeNotifierProvider(
             builder: (context) => DataTwo(this.c2),

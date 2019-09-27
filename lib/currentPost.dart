@@ -1,34 +1,49 @@
 import 'package:flutter/foundation.dart';
 
 class PostData with ChangeNotifier {
-  String _title = '';
-  String _content = '';
-  String _author = '';
+  final prevData;
+  String title = '';
+  String content = '';
+  String author = '';
   bool submitted = false;
 
+  PostData(this.prevData) {
+    if (this.prevData != null) {
+      this.title = this.prevData.getTitle;
+      this.content = this.prevData.getContent;
+      this.author = this.prevData.getAuthor;
+      this.submitted = this.prevData.getSubmitted;
+    } else {
+      this.title = '';
+      this.content = '';
+      this.author = '';
+      this.submitted = false;
+    }
+  }
+
   set setTitle(value) {
-    _title = value;
+    this.title = value;
     notifyListeners();
   }
 
   set setContent(value) {
-    _content = value;
+    this.content = value;
     notifyListeners();
   }
 
   set setAuthor(value) {
-    _author = value;
+    this.author = value;
     notifyListeners();
   }
 
   set setSubmitted(bool val) {
-    submitted = val;
+    this.submitted = val;
     notifyListeners();
   }
 
-  get getSubmitted => submitted;
+  get getSubmitted => this.submitted;
 
-  get getTitle => _title;
-  get getContent => _content;
-  get getAuthor => _author;
+  get getTitle => this.title;
+  get getContent => this.content;
+  get getAuthor => this.author;
 }
