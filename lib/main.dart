@@ -5,6 +5,8 @@ import './Pagetwo.dart';
 import './OnePost.dart';
 import './Posts.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
