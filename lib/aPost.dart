@@ -7,8 +7,9 @@ import './editPost.dart';
 
 class APost extends StatelessWidget {
   var postIndex;
+  var data;
 
-  APost({Key key, this.postIndex}) : super(key: key);
+  APost({Key key, this.postIndex, this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +17,7 @@ class APost extends StatelessWidget {
     var drawerItems = ["Add a Post", "View Posts"];
     var routes = ['./create', './view'];
 
-    if (Provider.of<DataTwo>(context).getdelPost == false) {
-      print(Provider.of<DataTwo>(context).getdelPost);
+    if (this.postIndex < this.data.postLength) {
       return Consumer<DataTwo>(builder: (context, dataa, child) {
         return MaterialApp(
             debugShowCheckedModeBanner: false,
@@ -55,11 +55,41 @@ class APost extends StatelessWidget {
                   actions: <Widget>[
                     PopupMenuButton(
                       elevation: 5.0,
+                      offset: Offset(0, 40),
                       onSelected: (selected) {
                         switch (selected) {
                           case 'deleted':
-                            print("Item deleted");
-                            deletePost(dataa, this.postIndex, context);
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text("Delete Post"),
+                                    content: Text(
+                                        "Do you really want to delete this post?"),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        child: Text("No"),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        onPressed: () {},
+                                      ),
+                                      FlatButton(
+                                        child: Text("Yes"),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        onPressed: () {
+                                          deletePost(
+                                              dataa, this.postIndex, context);
+                                        },
+                                      )
+                                    ],
+                                  );
+                                });
+
                             break;
 
                           case 'edited':

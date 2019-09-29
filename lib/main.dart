@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           routes: {
-            './create': (context) => MyApp(),
+            './create': (context) => MyApp(c1: Provider.of<PostData>(context)),
             './view': (context) => PageTwo(),
             './post': (context) => OnePost()
           },

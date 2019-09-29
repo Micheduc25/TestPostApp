@@ -160,8 +160,8 @@ class NewPost extends StatelessWidget {
                             color: Colors.blue,
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      APost(postIndex: this.postIndex)));
+                                  builder: (context) => APost(
+                                      postIndex: this.postIndex, data: data)));
                             },
                             child: Text("Save",
                                 style: TextStyle(color: Colors.white))))

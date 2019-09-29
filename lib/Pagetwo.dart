@@ -83,7 +83,8 @@ class MyHome extends StatelessWidget {
                                   onTap: () {
                                     Navigator.of(context).push(
                                         MaterialPageRoute(builder: (context) {
-                                      return APost(postIndex: index);
+                                      return APost(
+                                          postIndex: index, data: data);
                                     }));
 
                                     // data.setCurr = index;
