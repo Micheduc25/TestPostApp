@@ -7,17 +7,19 @@ import './aPost.dart';
 class PageTwo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<DataTwo>(
-        builder: (context, dataa, child) => MaterialApp(
-              routes: {
-                './create': (context) => MyApp(c2: dataa),
-                './view': (context) => PageTwo(),
-                // './apost': (context) => APost(postIndex: dataa.getCurr)
-              },
-              title: 'Page two',
-              theme: ThemeData(primarySwatch: Colors.blue),
-              home: MyHome(),
-            ));
+    return Consumer<DataTwo>(builder: (context, dataa, child) {
+      dataa.setdelPost = false;
+      return MaterialApp(
+        routes: {
+          './create': (context) => MyApp(c2: dataa),
+          './view': (context) => PageTwo(),
+          // './apost': (context) => APost(postIndex: dataa.getCurr)
+        },
+        title: 'Page two',
+        theme: ThemeData(primarySwatch: Colors.blue),
+        home: MyHome(),
+      );
+    });
   }
 }
 
