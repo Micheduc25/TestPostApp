@@ -17,6 +17,7 @@ class APost extends StatelessWidget {
     var routes = ['./create', './view'];
     return Consumer<DataTwo>(
       builder: (context, dataa, child) => MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'A single post',
           routes: {
             './post': (context) => APost(
@@ -45,11 +46,32 @@ class APost extends StatelessWidget {
                           );
                         },
                       ))),
-              appBar: AppBar(title: Text("A Post")),
+              appBar: AppBar(
+                title: Text("A Post"),
+                actions: <Widget>[
+                  PopupMenuButton(
+                    itemBuilder: (context) {
+                      return [
+                        PopupMenuItem(
+                          enabled: true,
+                          child: popItem(
+                              Icons.close, Colors.red, 'Delete Post', () {}),
+                        ),
+                        PopupMenuItem(
+                          enabled: true,
+                          child: popItem(
+                              Icons.edit, Colors.blue, 'Edit Post', () {}),
+                        )
+                      ];
+                    },
+                    icon: Icon(Icons.arrow_drop_down),
+                  )
+                ],
+              ),
               body: Center(
                 child: Hero(
                     tag: 'preview',
-                    child: Consumer<PostData>(
+                    child: Consumer<DataTwo>(
                         builder: (context, mydata, child) => Container(
                             width: double.infinity,
                             height: screenSize.height / 1.8,
@@ -61,17 +83,20 @@ class APost extends StatelessWidget {
                               children: <Widget>[
                                 Expanded(
                                   child: _fieldItem(() {
-                                    return mydata.getTitle;
+                                    return mydata.getPost(
+                                        this.postIndex, 'title');
                                   }, 'Title'),
                                 ),
                                 Expanded(
                                   child: _fieldItem(() {
-                                    return mydata.getContent;
+                                    return mydata.getPost(
+                                        this.postIndex, 'content');
                                   }, 'Content'),
                                 ),
                                 Expanded(
                                   child: _fieldItem(() {
-                                    return mydata.getAuthor;
+                                    return mydata.getPost(
+                                        this.postIndex, 'author');
                                   }, 'Author'),
                                 )
                               ],
@@ -99,4 +124,13 @@ Widget _fieldItem(getdata(), String title) {
           )
         ],
       ));
+}
+
+Widget popItem(IconData icon, Color iconColor, String title, callback()) {
+  return ListTile(
+    leading: Icon(icon, color: iconColor),
+    title: Text(title),
+    onTap: callback,
+    contentPadding: EdgeInsets.all(0),
+  );
 }

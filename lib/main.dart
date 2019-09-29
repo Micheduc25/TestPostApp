@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import './currentPost.dart';
 import './Pagetwo.dart';
 import './OnePost.dart';
 import './Posts.dart';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+void main() {
+  // debugPaintSizeEnabled = true;
 
-void main() => runApp(MyApp());
+  return runApp(
+    MyApp(),
+  );
+}
 
 class MyApp extends StatelessWidget {
   final c1;
@@ -26,6 +31,7 @@ class MyApp extends StatelessWidget {
           )
         ],
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           routes: {
             './create': (context) => MyApp(),
             './view': (context) => PageTwo(),

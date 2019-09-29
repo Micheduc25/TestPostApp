@@ -12,7 +12,7 @@ class PageTwo extends StatelessWidget {
               routes: {
                 './create': (context) => MyApp(c2: dataa),
                 './view': (context) => PageTwo(),
-                './apost': (context) => APost(postIndex: dataa.getCurr)
+                // './apost': (context) => APost(postIndex: dataa.getCurr)
               },
               title: 'Page two',
               theme: ThemeData(primarySwatch: Colors.blue),
@@ -26,6 +26,8 @@ class MyHome extends StatelessWidget {
   Widget build(BuildContext context) {
     var drawerItems = ["Add a Post", "View Posts"];
     var routes = ['./create', './view'];
+    var size = MediaQuery.of(context).size;
+
     return Scaffold(
         drawer: Drawer(
             child: Container(
@@ -77,8 +79,12 @@ class MyHome extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () {
-                                    Navigator.of(context).pushNamed('./apost');
-                                    data.setCurr = index;
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(builder: (context) {
+                                      return APost(postIndex: index);
+                                    }));
+
+                                    // data.setCurr = index;
                                   },
                                   child: Container(
                                       padding: EdgeInsets.all(5),
