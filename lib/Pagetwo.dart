@@ -7,6 +7,7 @@ import './aPost.dart';
 class PageTwo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return Consumer<DataTwo>(
         builder: (context, dataa, child) => MaterialApp(
               routes: {
@@ -18,6 +19,21 @@ class PageTwo extends StatelessWidget {
               theme: ThemeData(primarySwatch: Colors.blue),
               home: MyHome(),
             ));
+=======
+    return Consumer<DataTwo>(builder: (context, dataa, child) {
+      dataa.setdelPost = false;
+      return MaterialApp(
+        routes: {
+          './create': (context) => MyApp(c2: dataa),
+          './view': (context) => PageTwo(),
+          // './apost': (context) => APost(postIndex: dataa.getCurr)
+        },
+        title: 'Page two',
+        theme: ThemeData(primarySwatch: Colors.blue),
+        home: MyHome(),
+      );
+    });
+>>>>>>> shareData
   }
 }
 
@@ -26,6 +42,8 @@ class MyHome extends StatelessWidget {
   Widget build(BuildContext context) {
     var drawerItems = ["Add a Post", "View Posts"];
     var routes = ['./create', './view'];
+    var size = MediaQuery.of(context).size;
+
     return Scaffold(
         drawer: Drawer(
             child: Container(
@@ -77,8 +95,13 @@ class MyHome extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () {
-                                    Navigator.of(context).pushNamed('./apost');
-                                    data.setCurr = index;
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(builder: (context) {
+                                      return APost(
+                                          postIndex: index, data: data);
+                                    }));
+
+                                    // data.setCurr = index;
                                   },
                                   child: Container(
                                       padding: EdgeInsets.all(5),

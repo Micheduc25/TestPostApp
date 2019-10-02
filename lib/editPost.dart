@@ -1,52 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
-import './currentPost.dart';
-import './Pagetwo.dart';
-import './OnePost.dart';
-import './Posts.dart';
 
-void main() {
-  // debugPaintSizeEnabled = true;
+import 'Pagetwo.dart';
+import 'Posts.dart';
+import 'currentPost.dart';
+import './aPost.dart';
 
-  return runApp(
-    MyApp(),
-  );
-}
+class EditPost extends StatelessWidget {
+  final postIndex;
 
-class MyApp extends StatelessWidget {
-
-  final c1;
-  final c2;
-
-  MyApp({Key key, this.c1: null, this.c2: null}) : super(key: key);
-
+  EditPost({Key key, this.postIndex}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-            builder: (context) => PostData(this.c1),
-          ),
-          ChangeNotifierProvider(
-            builder: (context) => DataTwo(),
-          )
-        ],
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          routes: {
-            './create': (context) => MyApp(c1: Provider.of<PostData>(context)),
-            './view': (context) => PageTwo(),
-            './post': (context) => OnePost()
-          },
-          title: 'home page',
-          theme: ThemeData(primarySwatch: Colors.blue),
-          home: MyHome(),
-        ));
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      routes: {
+        './edit': (context) => EditPost(),
+        './view': (context) => PageTwo(),
+        './apost': (context) => APost(postIndex: this.postIndex)
+      },
+      title: 'home page',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: MyHome(this.postIndex),
+    );
   }
 }
 
 class MyHome extends StatelessWidget {
+  final int postIndex;
+
+  MyHome(this.postIndex);
   @override
   Widget build(BuildContext context) {
     var drawerItems = ["Add a Post", "View Posts"];
@@ -71,7 +54,7 @@ class MyHome extends StatelessWidget {
                   },
                 ))),
         appBar: AppBar(
-          title: Text('New Post'),
+          title: Text('Edit Post'),
         ),
         body: ListView(children: <Widget>[
           Container(
@@ -80,7 +63,8 @@ class MyHome extends StatelessWidget {
                 child: Consumer<PostData>(
                     builder: (context, mydata, child) => Column(
                           children: <Widget>[
-                            showWidget(new NewPost(), mydata, 'reverse'),
+                            showWidget(
+                                new NewPost(this.postIndex), mydata, 'reverse'),
 
                             //show or not show submit successful
                             showWidget(
@@ -100,28 +84,28 @@ class MyHome extends StatelessWidget {
 
                             //////
 
-                            PostPreview(),
-                            showWidget(
-                                new RaisedButton(
-                                  color: Colors.blue,
-                                  child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Icon(Icons.add,
-                                            color: Colors.white, size: 30),
-                                        Text("New Post",
-                                            style:
-                                                TextStyle(color: Colors.white))
-                                      ]),
-                                  onPressed: () {
-                                    mydata.setTitle = '';
-                                    mydata.setContent = '';
-                                    mydata.setAuthor = '';
-                                    mydata.setSubmitted = false;
-                                  },
-                                ),
-                                mydata,
-                                'normal')
+                            PostPreview(this.postIndex),
+                            // showWidget(
+                            //     new RaisedButton(
+                            //       color: Colors.blue,
+                            //       child: Row(
+                            //           mainAxisSize: MainAxisSize.min,
+                            //           children: [
+                            //             Icon(Icons.add,
+                            //                 color: Colors.white, size: 30),
+                            //             Text("New Post",
+                            //                 style:
+                            //                     TextStyle(color: Colors.white))
+                            //           ]),
+                            //       onPressed: () {
+                            //         mydata.setTitle = '';
+                            //         mydata.setContent = '';
+                            //         mydata.setAuthor = '';
+                            //         mydata.setSubmitted = false;
+                            //       },
+                            //     ),
+                            //     mydata,
+                            //     'normal')
                           ],
                         ))),
           ),
@@ -145,6 +129,8 @@ class MyHome extends StatelessWidget {
 }
 
 class NewPost extends StatelessWidget {
+  final int postIndex;
+  NewPost(this.postIndex);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -153,38 +139,37 @@ class NewPost extends StatelessWidget {
       alignment: Alignment.center,
       child: Form(
           autovalidate: true,
-          child: Consumer<PostData>(
+          child: Consumer<DataTwo>(
               builder: (context, mydata, child) => Column(children: <Widget>[
-                    _formInput("Title", mydata, (val) {
-                      mydata.setTitle = val;
+                    _formInput("Title", mydata.getPost(this.postIndex, 'title'),
+                        (val) {
+                      mydata.setPost(this.postIndex, 'title', val);
                     }),
-                    _formInput("Content", mydata, (val) {
-                      mydata.setContent = val;
+                    _formInput(
+                        "Content", mydata.getPost(this.postIndex, 'content'),
+                        (val) {
+                      mydata.setPost(this.postIndex, 'content', val);
                     }, noLines: 5),
-                    _formInput("Author", mydata, (val) {
-                      mydata.setAuthor = val;
+                    _formInput(
+                        "Author", mydata.getPost(this.postIndex, 'author'),
+                        (val) {
+                      mydata.setPost(this.postIndex, 'author', val);
                     }),
                     Consumer<DataTwo>(
                         builder: (context, data, child) => RaisedButton(
                             color: Colors.blue,
                             onPressed: () {
-                              data.addPost = {
-                                'title': mydata.getTitle,
-                                'content': mydata.getContent,
-                                'author': mydata.getAuthor
-                              };
-
-                              data.setisEmpty = false;
-                              print(data.getPosts);
-                              mydata.setSubmitted = !mydata.getSubmitted;
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => APost(
+                                      postIndex: this.postIndex, data: data)));
                             },
-                            child: Text("Create",
+                            child: Text("Save",
                                 style: TextStyle(color: Colors.white))))
                   ]))),
     );
   }
 
-  Widget _formInput(String title, PostData data, changed(String val),
+  Widget _formInput(String title, String initialValue, changed(String val),
       {int noLines = 1}) {
     return Column(
       children: <Widget>[
@@ -197,6 +182,7 @@ class NewPost extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(top: 5, bottom: 20),
           child: TextFormField(
+            initialValue: initialValue,
             decoration: InputDecoration(
               hintText: title,
               hintStyle: TextStyle(color: Colors.grey),
@@ -213,7 +199,9 @@ class NewPost extends StatelessWidget {
 }
 
 class PostPreview extends StatelessWidget {
+  final int postIndex;
   @override
+  PostPreview(this.postIndex);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -222,7 +210,7 @@ class PostPreview extends StatelessWidget {
         },
         child: Hero(
             tag: 'preview',
-            child: Consumer<PostData>(
+            child: Consumer<DataTwo>(
                 builder: (context, mydata, child) => Container(
                     width: double.infinity,
                     padding: EdgeInsets.all(5),
@@ -231,13 +219,13 @@ class PostPreview extends StatelessWidget {
                     child: Column(
                       children: <Widget>[
                         _fieldItem(() {
-                          return mydata.getTitle;
+                          return mydata.getPost(this.postIndex, 'title');
                         }, 'Title'),
                         _fieldItem(() {
-                          return mydata.getContent;
+                          return mydata.getPost(this.postIndex, 'title');
                         }, 'Content'),
                         _fieldItem(() {
-                          return mydata.getAuthor;
+                          return mydata.getPost(this.postIndex, 'author');
                         }, 'Author'),
                       ],
                     )))));
