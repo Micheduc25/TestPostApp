@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
             builder: (context) => PostData(this.c1),
           ),
           ChangeNotifierProvider(
-            builder: (context) => DataTwo(),
+            builder: (context) => DataTwo(this.c2),
           )
         ],
         child: MaterialApp(

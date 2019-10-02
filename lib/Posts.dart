@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DataTwo with ChangeNotifier {
-<<<<<<< HEAD
-  var myPosts =
-      []; //we start with an empty array. values will be added over time
-=======
+
   final prevData;
   bool isEmpty;
   int currPost;
@@ -41,12 +38,7 @@ class DataTwo with ChangeNotifier {
       this.delPost = false;
     }
   }
-  // var myPosts =
-  //     []; //we start with an empty array. values will be added over time
->>>>>>> shareData
 
-  // bool _isEmpty = true;
-  // int currPost = 0;
 
   get getCurr => this.currPost;
   set setCurr(int val) {

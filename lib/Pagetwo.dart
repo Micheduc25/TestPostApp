@@ -7,7 +7,7 @@ import './aPost.dart';
 class PageTwo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
+
     return Consumer<DataTwo>(
         builder: (context, dataa, child) => MaterialApp(
               routes: {
@@ -19,21 +19,7 @@ class PageTwo extends StatelessWidget {
               theme: ThemeData(primarySwatch: Colors.blue),
               home: MyHome(),
             ));
-=======
-    return Consumer<DataTwo>(builder: (context, dataa, child) {
-      dataa.setdelPost = false;
-      return MaterialApp(
-        routes: {
-          './create': (context) => MyApp(c2: dataa),
-          './view': (context) => PageTwo(),
-          // './apost': (context) => APost(postIndex: dataa.getCurr)
-        },
-        title: 'Page two',
-        theme: ThemeData(primarySwatch: Colors.blue),
-        home: MyHome(),
-      );
-    });
->>>>>>> shareData
+
   }
 }
 
@@ -88,7 +74,7 @@ class MyHome extends StatelessWidget {
                             child: GridView.builder(
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: colCount(data),
+                                      crossAxisCount: colCount(data, context),
                                       mainAxisSpacing: 10,
                                       crossAxisSpacing: 10),
                               itemCount: data.postLength,
@@ -149,13 +135,17 @@ class MyHome extends StatelessWidget {
   }
 }
 
-int colCount(DataTwo data) {
+int colCount(DataTwo data,context) {
   //if there is only one element in the post arrays, we return one as our cross axis count, else we return the number
-  if (data.postLength == 1) {
-    return 1;
-  } else if (data.postLength > 1) {
+  if(MediaQuery.of(context).size.width>1200){
+    return 3;
+  }
+
+  else if (MediaQuery.of(context).size.width>700){
     return 2;
-  } else {
+  }
+
+  else if(MediaQuery.of(context).size.width<=700){
     return 1;
   }
 }
